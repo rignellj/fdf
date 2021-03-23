@@ -6,7 +6,7 @@
 /*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 10:09:52 by ttampio           #+#    #+#             */
-/*   Updated: 2021/03/22 14:59:03 by jrignell         ###   ########.fr       */
+/*   Updated: 2021/03/23 12:33:52 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <stdlib.h>
 # include <unistd.h>
-# include "libftprintf.h"
+# include "ft_printf.h"
 # include "get_next_line.h"
 # include "queue.h"
 # include "stack.h"
@@ -25,6 +25,12 @@
 
 # define BUFF_SIZE 32
 # define FD_SIZE 4096
+
+typedef enum		e_bool
+{
+	FALSE,
+	TRUE
+}					t_bool;
 
 typedef struct		s_list
 {
@@ -44,7 +50,7 @@ typedef enum		e_strjointype
 size_t				ft_charcnt(char *s, char target);
 int					ft_strchrescpd(char *str, size_t i, char escp_chr);
 int					ft_power(int num, int power);
-void				ft_arraydel(char **array);
+void				ft_arraydel(char ***array);
 char				*ft_strjoinchar(char const *s1, char c);
 char				**ft_arraynew(size_t size);
 char				**ft_array_push(char **array, char *str, int index);
@@ -183,6 +189,12 @@ void				ft_putnchar(size_t cnt, unsigned char c);
 char				*ft_straddchr(char **str_ptr, char c);
 int					ft_chrescpd(size_t i, char esc_c, char *str);
 char				**ft_strarrjoin(char **arr1, char **arr2);
+char				*ft_itoa_base(long long value, int base, int upper);
 int					get_next_line(const int fd, char **line);
+char    			*ft_itoa_base_u(unsigned long long int value,
+					int base, int upper);
+char            	*ft_lftoa(long double value, size_t precision);
+char          		*ft_joindel(char *s1, char *s2);
+void				*ft_check_malloc(void *ptr);
 
 #endif

@@ -5,49 +5,53 @@
 #                                                     +:+ +:+         +:+      #
 #    By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/11/14 11:41:06 by ttampio           #+#    #+#              #
-#    Updated: 2020/12/16 13:50:28 by jrignell         ###   ########.fr        #
+#    Created: 2019/12/05 15:53:22 by jrignell          #+#    #+#              #
+#    Updated: 2021/03/22 18:58:51 by jrignell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libftprintf.a
+CFLAGS = -Wall -Wextra -Werror
+CC = gcc
+INC_DIR = includes/
+OBJ_DIR =	obj/
+SRC_DIR =	srcs/
 
-CC =		gcc
-CFLAGS =	-Wextra -Wall -Werror
-ODIR =		obj
-SRCDIR =	srcs
-IDIR = 		includes
-SRC =		$(patsubst %.c, core/%.c, $(SRC_CORE)) \
-			$(patsubst %.c, util/%.c, $(SRC_UTIL))
+SRCS = 	ft_printf.c \
+		ft_dprintf.c \
+		ft_parse_diouxf.c \
+		ft_parse_hh_h_ll_l.c \
+		check_bef_format.c \
+		check_bef_format_u.c \
+		ft_parse_width.c \
+		ft_parse_f.c \
+		ft_precision.c \
+		ft_parse_csp_percent.c \
+		ft_parse_flags.c \
+		ft_helpers.c \
+		ft_helpers_check_functions.c \
+		ft_parse_brk.c \
+		print_array.c
 
-SRC_CORE =	ft_printf.c ft_c_conv.c ft_s_conv.c ft_map_modifiers.c \
-			ft_convert_to_str.c ft_p_conv.c ft_di_conv.c ft_o_conv.c \
-			ft_u_conv.c ft_x_conv.c ft_upr_x_conv.c ft_f_conv.c \
-			ft_percent_conv.c
+OBJ = $(addprefix $(OBJ_DIR), $(SRCS:.c=.o))
 
-SRC_UTIL =	ft_mask_decimal_trail.c
+all: obj $(NAME)
 
-OBJ = $(addprefix $(ODIR)/, $(SRC:.c=.o))
+obj:
+	@mkdir -p $(OBJ_DIR)
+$(OBJ_DIR)%.o:$(SRC_DIR)%.c
+	@$(CC) $(CFLAGS) -c $< -o $@ -I $(INC_DIR)
 
-all: $(NAME)
-
-$(NAME): $(ODIR) $(OBJ)
+$(NAME): $(OBJ_DIR) $(OBJ)
 	@ar rc $(NAME) $(OBJ)
-
-$(ODIR)/%.o: $(SRCDIR)/%.c
-	@$(CC) $(CFLAGS) -c $< -o $@ -I $(IDIR)/ -I ../src/
-
-$(ODIR):
-	@/bin/mkdir $@
-	@/bin/mkdir $@/core
-	@/bin/mkdir $@/util
+	@ranlib $(NAME)
 
 clean:
-	@/bin/rm -rf $(ODIR)
+	@/bin/rm -f $(OBJ)
 
 fclean: clean
-	@/bin/rm -rf $(NAME)
+	@/bin/rm -f $(NAME)
 
 re: fclean all
-
+	
 .PHONY: all clean fclean re

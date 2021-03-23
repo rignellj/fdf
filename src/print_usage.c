@@ -1,27 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_arraydel.c                                      :+:      :+:    :+:   */
+/*   print_usage.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/16 13:37:26 by jrignell          #+#    #+#             */
-/*   Updated: 2021/03/23 12:33:33 by jrignell         ###   ########.fr       */
+/*   Created: 2021/03/22 15:59:48 by jrignell          #+#    #+#             */
+/*   Updated: 2021/03/22 18:45:46 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "fdf.h"
 
-void	ft_arraydel(char ***array)
+void	print_usage(void)
 {
-	int	i;
-
-	i = 0;
-	while (*array && (*array)[i])
-		ft_strdel(&(*array)[i++]);
-	if (*array != NULL)
-	{
-		free(*array);
-		*array = NULL;
-	}
+	ft_dprintf(STDERR_FILENO, "usage: ./fdf <file_to_read_from>\n");
+	exit(1);
 }

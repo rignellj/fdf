@@ -1,27 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_arraydel.c                                      :+:      :+:    :+:   */
+/*   perror_exit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/16 13:37:26 by jrignell          #+#    #+#             */
-/*   Updated: 2021/03/23 12:33:33 by jrignell         ###   ########.fr       */
+/*   Created: 2021/03/22 17:50:57 by jrignell          #+#    #+#             */
+/*   Updated: 2021/03/22 17:51:42 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "fdf.h"
 
-void	ft_arraydel(char ***array)
+void	perror_exit(char *error)
 {
-	int	i;
-
-	i = 0;
-	while (*array && (*array)[i])
-		ft_strdel(&(*array)[i++]);
-	if (*array != NULL)
-	{
-		free(*array);
-		*array = NULL;
-	}
+	perror(error);
+	exit(1);
 }

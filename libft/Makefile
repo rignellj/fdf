@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ttampio <ttampio@student.hive.fi>          +#+  +:+       +#+         #
+#    By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/16 08:37:30 by ttampio           #+#    #+#              #
-#    Updated: 2021/02/05 17:02:30 by ttampio          ###   ########.fr        #
+#    Updated: 2021/03/22 19:02:48 by jrignell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -148,6 +148,10 @@ SRC =  \
 		ft_straddchr.c \
 		ft_chrescpd.c \
 		ft_strarrjoin.c \
+		ft_lftoa.c \
+		ft_itoa_base_u.c \
+		ft_joindel.c \
+		ft_check_malloc.c \
 
 BTREEFILES =	rb_rotate.c \
 				rb_insert.c \
@@ -239,7 +243,7 @@ $(ODIR):
 
 $(NAME): $(OBJ)
 	@ar rc $@ $^
-	@ar rc $@ ft_printf/obj/*/*.o
+	@ar rc $@ ft_printf/obj/*.o
 
 $(FT_PRINTF):
 	@make -C ft_printf/ fclean && make -C ft_printf/

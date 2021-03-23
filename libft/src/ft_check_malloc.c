@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_arraydel.c                                      :+:      :+:    :+:   */
+/*   ft_check_malloc.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/16 13:37:26 by jrignell          #+#    #+#             */
-/*   Updated: 2021/03/23 12:33:33 by jrignell         ###   ########.fr       */
+/*   Created: 2021/03/22 17:57:01 by jrignell          #+#    #+#             */
+/*   Updated: 2021/03/22 18:43:55 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_arraydel(char ***array)
+void	*ft_check_malloc(void *ptr)
 {
-	int	i;
-
-	i = 0;
-	while (*array && (*array)[i])
-		ft_strdel(&(*array)[i++]);
-	if (*array != NULL)
+	if (!ptr)
 	{
-		free(*array);
-		*array = NULL;
+		ft_dprintf(STDERR_FILENO, "Cannot allocate memory\n");
+		exit(1);
 	}
+	return (ptr);
 }

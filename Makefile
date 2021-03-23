@@ -6,7 +6,7 @@
 #    By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/22 11:22:17 by jrignell          #+#    #+#              #
-#    Updated: 2021/03/22 14:55:41 by jrignell         ###   ########.fr        #
+#    Updated: 2021/03/23 12:38:23 by jrignell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,11 @@ OBJ_DIR = ./obj/
 INCLUDES = 	-I $(MINLBX_DIR) -I $(LIBFT_DIR)includes \
 			-I $(LIBFT_DIR)ft_printf/includes -I $(INC_DIR)
 
-SRC_FILES =	main.c
+SRC_FILES =	main.c \
+			perror_exit.c \
+			print_usage.c \
+			read_from_file.c \
+
 OBJ_FILES = $(SRC_FILES:.c=.o)
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
@@ -42,12 +46,15 @@ all: obj $(LIBFT) $(MINLBX) $(NAME)
 
 obj:
 	@$(MKDIR) -p $(OBJ_DIR)
+
 $(OBJ_DIR)%.o:$(SRC_DIR)%.c
 	@$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $<
+
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR)
+
 $(MINLBX):
-	@$(MAKE) -C $(MINLBX_DIR)
+	@$(MAKE) -C $(MINLBX_DIR) >/dev/null 2>&1
 
 $(NAME): $(OBJ)
 	@$(CC) $(OBJ) $(LINKS) -lm -o $(NAME)
@@ -66,6 +73,5 @@ fclean: clean
 re: fclean all
 
 fd: all ./includes/* ./libft/includes/libft.h
-	@./$(NAME)
 
 .PHONY: all clean fclean re

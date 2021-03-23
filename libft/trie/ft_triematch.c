@@ -6,7 +6,7 @@
 /*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 17:29:02 by jrignell          #+#    #+#             */
-/*   Updated: 2021/02/05 14:21:06 by jrignell         ###   ########.fr       */
+/*   Updated: 2021/03/23 12:33:47 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	alloc_strs(char *prefix, char ***array, char **suffix[2],
 		return ;
 	if (!(*array = ft_array_push(*array, tmp, 0)))
 		return ;
-	ft_arraydel(ptr);
+	ft_arraydel(&ptr);
 	(*suffix)[1] = init_last_char((*suffix)[1]);
 	ft_strdel(&tmp);
 	node->visited = TRUE;
