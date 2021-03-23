@@ -6,7 +6,7 @@
 /*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 15:48:50 by jrignell          #+#    #+#             */
-/*   Updated: 2021/03/23 12:55:28 by jrignell         ###   ########.fr       */
+/*   Updated: 2021/03/23 13:10:47 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static t_map	**loop_gnl(int fd)
 	lines = 0;
 	while ((ret = get_next_line(fd, &line)) == 1)
 	{
-		new = ft_lstnew(line, sizeof(char *) * ft_strlen(line));
+		new = ft_lstnew(line, sizeof(char) * ft_strlen(line));
 		ft_lstaddend(&head, new);
 		lines++;
 		ft_strdel(&line);
