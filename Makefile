@@ -6,7 +6,7 @@
 #    By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/22 11:22:17 by jrignell          #+#    #+#              #
-#    Updated: 2021/03/23 12:38:23 by jrignell         ###   ########.fr        #
+#    Updated: 2021/03/30 15:51:08 by jrignell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,12 @@ INCLUDES = 	-I $(MINLBX_DIR) -I $(LIBFT_DIR)includes \
 			-I $(LIBFT_DIR)ft_printf/includes -I $(INC_DIR)
 
 SRC_FILES =	main.c \
+			init.c \
+			draw.c \
+			rotate.c \
+			key_press.c \
+			expose_hook.c \
+			mouse_press.c \
 			perror_exit.c \
 			print_usage.c \
 			read_from_file.c \
@@ -72,6 +78,10 @@ fclean: clean
 
 re: fclean all
 
-fd: all ./includes/* ./libft/includes/libft.h
+fd: clean_obj obj $(NAME) ./includes/* ./libft/includes/libft.h
+	@./fdf test_maps/42.fdf
+
+clean_obj:
+	@$(RM) -Rf $(OBJ_DIR)
 
 .PHONY: all clean fclean re

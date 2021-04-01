@@ -6,54 +6,55 @@
 /*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 15:48:50 by jrignell          #+#    #+#             */
-/*   Updated: 2021/03/23 13:10:47 by jrignell         ###   ########.fr       */
+/*   Updated: 2021/04/01 20:41:23 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static t_map	form_pixel(size_t *x, size_t *y, char *height)
+static t_map	form_pixel(size_t *x, size_t *y, char *altitude)
 {
 	t_map	pixel;
-	
-	ft_bzero(&pixel, sizeof(t_map));
-	pixel.x = *x;
-	pixel.y = *y;
-	pixel.height = ft_atoi(height);
+
+	ft_bzero(&pixel, sizeof(t_map));	
+	pixel.x = (*x);
+	pixel.y = (*y);
+	pixel.z = ft_atoi(altitude);
 	return (pixel);
 }
 
 static void		assign_pixels(size_t *y, char ***array,
-				size_t *pixels_pre_line, t_map **line)
+				t_map **line, t_fdf *fdf)
 {
-	size_t	x;
+	size_t			x;
+	size_t			pixels_pre_line;
 
 	x = 0;
-	while ((*pixels_pre_line)--)
+	pixels_pre_line = MAP_WIDTH;
+	while ((pixels_pre_line)--)
 	{
 		(*line)[x] = form_pixel(&x, y, (*array)[x]);
 		x++;
 	}
 }
 
-static t_map	**create_map(t_list **head, int lines, char *tmp)
+static t_map	**create_map(t_list **head, int *lines, char *tmp, t_fdf *fdf)
 {
 	t_map	**map;
 	t_map	*line;
 	char	**array;
 	size_t	y;
-	size_t	pixels_pre_line;
 
 	y = 0;
-	ft_check_malloc(map = (t_map **)ft_memalloc(sizeof(t_map *) * (lines + 1)));
-	while (lines--)
+	ft_check_malloc(map = (t_map **)ft_memalloc(sizeof(t_map *) * (MAP_HEIGHT + 1)));
+	while ((*lines)--)
 	{
 		tmp = (char *)ft_pop(head);
 		ft_check_malloc(array = ft_strsplit(tmp, ' '));
-		pixels_pre_line = ft_strarrlen(array);
-		line = (t_map *)ft_memalloc(sizeof(t_map) * pixels_pre_line + 1);
+		MAP_WIDTH = ft_strarrlen(array);
+		line = (t_map *)ft_memalloc(sizeof(t_map) * MAP_WIDTH + 1);
 		ft_check_malloc(line);
-		assign_pixels(&y, &array, &pixels_pre_line, &line);
+		assign_pixels(&y, &array, &line, fdf);
 		map[y++] = line;
 		ft_arraydel(&array);
 		ft_strdel(&tmp);
@@ -61,7 +62,7 @@ static t_map	**create_map(t_list **head, int lines, char *tmp)
 	return (map);
 }
 
-static t_map	**loop_gnl(int fd)
+static void loop_gnl(int fd, t_fdf *fdf)
 {
 	char	*line;
 	int		ret;
@@ -73,26 +74,27 @@ static t_map	**loop_gnl(int fd)
 	lines = 0;
 	while ((ret = get_next_line(fd, &line)) == 1)
 	{
-		new = ft_lstnew(line, sizeof(char) * ft_strlen(line));
+		new = ft_lstnew(line, ft_strlen(line) + 1);
+		ft_check_malloc(new);
 		ft_lstaddend(&head, new);
 		lines++;
 		ft_strdel(&line);
 	}
 	if (ret == -1)
 		perror_exit("read");
-	return (create_map(&head, --lines, line));
+	MAP_HEIGHT = lines;
+	fdf->map = create_map(&head, &lines, line, fdf);
 }
 
-int			read_from_file(int ac, char **av)
+int			read_from_file(t_fdf *fdf, int ac, char **av)
 {
 	int		fd;
-	t_map	**map;
 
 	if (ac != 2)
 		return (1);
 	if ((fd = open(av[1], O_RDONLY)) == -1)
 		perror_exit("open");
-	map = loop_gnl(fd);
+	loop_gnl(fd, fdf);
 	if (close(fd) == -1)
 		perror_exit("close");
 	return (0);
