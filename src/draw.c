@@ -6,32 +6,51 @@
 /*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 15:32:34 by jrignell          #+#    #+#             */
-/*   Updated: 2021/04/01 20:44:18 by jrignell         ###   ########.fr       */
+/*   Updated: 2021/04/02 16:34:51 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static int	color(t_map *start)
+static int	color(int end_z, t_fdf *fdf)
 {
-	(void)start;
-	// if (start->height) 
-	// 	return (BLUE);
-	return (0xFFFFFFF);
+	if (end_z >= fdf->colors->sea5)
+		return (WHITE);
+	else if (end_z < fdf->colors->sea5 && end_z >= fdf->colors->sea4)
+		return (BROWN);
+	else if (end_z < fdf->colors->sea4 && end_z >= fdf->colors->sea3)
+		return (BLUE);
+	else if (end_z < fdf->colors->sea3 && end_z >= fdf->colors->sea2)
+		return (GREEN);
+	else if (end_z < fdf->colors->sea2 && end_z > fdf->colors->sea)
+		return (MAGENTA);
+	else if (end_z == fdf->colors->sea)
+		return (CYAN);
+	else if (end_z < fdf->colors->sea && end_z >= fdf->colors->sea_1)
+		return (SEA_LEVEL);
+	else if (end_z < fdf->colors->sea_1 && end_z >= fdf->colors->sea_2)
+		return (YELLOW);
+	else if (end_z < fdf->colors->sea_2 && end_z >= fdf->colors->sea_3)
+		return (ORANGE);
+	else if (end_z < fdf->colors->sea_3 && end_z >= fdf->colors->sea_5)
+		return (RED);
+	else if (end_z < fdf->colors->sea_5)
+		return (CREAM);
+	return (YELLOW);
 }
 
-static void	draw_s_less1(t_map *start, t_fdf *fdf)
+static void	draw_slope_lessthan1(t_map *start, t_fdf *fdf, int color)
 {
 	int		i;
 	int		x;
 	int		y;
 
 	i = 0;
-	x = start->rotated_x;
-	y = start->rotated_y;
+	x = (int)start->rotated_x;
+	y = (int)start->rotated_y;
 	while (i <= DX)
 	{
-		mlx_pixel_put(MLX_PTR, WIN_PTR, x, y, color(start));
+		mlx_pixel_put(MLX_PTR, WIN_PTR, x, y, color);
 		if (DECISION_VAR > 0)
 		{
 			DECISION_VAR = DECISION_VAR + 2 * (DY - DX);
@@ -43,7 +62,7 @@ static void	draw_s_less1(t_map *start, t_fdf *fdf)
 		i++;
 	}
 }
-static void	draw_s_more1(t_map *start, t_fdf *fdf)
+static void	draw_slope_morethan1(t_map *start, t_fdf *fdf, int color)
 {
 	int		i;
 	int		x;
@@ -54,7 +73,7 @@ static void	draw_s_more1(t_map *start, t_fdf *fdf)
 	y = (int)start->rotated_y;
 	while (i <= DY)
 	{
-		mlx_pixel_put(MLX_PTR, WIN_PTR, x, y, color(start));
+		mlx_pixel_put(MLX_PTR, WIN_PTR, x, y, color);
 		if (DECISION_VAR > 0)
 		{
 			DECISION_VAR = DECISION_VAR + 2 * (DX - DY);
@@ -76,12 +95,12 @@ static void	init_draw(t_map *start, t_map *end, t_fdf *fdf)
 	if (DX > DY)
 	{
 		DECISION_VAR = 2 * DY - DX;
-		draw_s_less1(start, fdf);
+		draw_slope_lessthan1(start, fdf, color(end->z, fdf));
 	}
 	else
 	{
 		DECISION_VAR = 2 * DX - DY;
-		draw_s_more1(start, fdf);	
+		draw_slope_morethan1(start, fdf, color(end->z, fdf));	
 	}
 }
 

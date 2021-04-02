@@ -6,7 +6,7 @@
 /*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 15:48:50 by jrignell          #+#    #+#             */
-/*   Updated: 2021/04/01 20:41:23 by jrignell         ###   ########.fr       */
+/*   Updated: 2021/04/02 10:57:04 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,12 @@ static void		assign_pixels(size_t *y, char ***array,
 {
 	size_t			x;
 	size_t			pixels_pre_line;
+	static int		width;
 
+	if (!width)
+		width = MAP_WIDTH;
+	if (MAP_WIDTH != width)
+		perror_exit(NULL, "Error: Invalid Map");
 	x = 0;
 	pixels_pre_line = MAP_WIDTH;
 	while ((pixels_pre_line)--)
@@ -81,7 +86,7 @@ static void loop_gnl(int fd, t_fdf *fdf)
 		ft_strdel(&line);
 	}
 	if (ret == -1)
-		perror_exit("read");
+		perror_exit("read", NULL);
 	MAP_HEIGHT = lines;
 	fdf->map = create_map(&head, &lines, line, fdf);
 }
@@ -93,9 +98,9 @@ int			read_from_file(t_fdf *fdf, int ac, char **av)
 	if (ac != 2)
 		return (1);
 	if ((fd = open(av[1], O_RDONLY)) == -1)
-		perror_exit("open");
+		perror_exit("open", NULL);
 	loop_gnl(fd, fdf);
 	if (close(fd) == -1)
-		perror_exit("close");
+		perror_exit("close", NULL);
 	return (0);
 }

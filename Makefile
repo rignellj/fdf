@@ -6,7 +6,7 @@
 #    By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/22 11:22:17 by jrignell          #+#    #+#              #
-#    Updated: 2021/03/30 15:51:08 by jrignell         ###   ########.fr        #
+#    Updated: 2021/04/02 16:40:07 by jrignell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,9 @@ SRC_FILES =	main.c \
 			mouse_press.c \
 			perror_exit.c \
 			print_usage.c \
+			define_colors.c \
 			read_from_file.c \
+			write_into_screen.c \
 
 OBJ_FILES = $(SRC_FILES:.c=.o)
 

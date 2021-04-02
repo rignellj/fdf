@@ -6,14 +6,17 @@
 /*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 17:50:57 by jrignell          #+#    #+#             */
-/*   Updated: 2021/03/22 17:51:42 by jrignell         ###   ########.fr       */
+/*   Updated: 2021/04/02 10:55:04 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	perror_exit(char *error)
+void	perror_exit(char *error, char *message)
 {
-	perror(error);
+	if (!message)
+		perror(error);
+	else
+		ft_dprintf(STDERR_FILENO, "%s\n", message);
 	exit(1);
 }
