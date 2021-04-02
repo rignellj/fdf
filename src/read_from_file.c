@@ -6,7 +6,7 @@
 /*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 15:48:50 by jrignell          #+#    #+#             */
-/*   Updated: 2021/04/02 10:57:04 by jrignell         ###   ########.fr       */
+/*   Updated: 2021/04/02 17:18:32 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static t_map	form_pixel(size_t *x, size_t *y, char *altitude)
 {
 	t_map	pixel;
 
-	ft_bzero(&pixel, sizeof(t_map));	
+	ft_bzero(&pixel, sizeof(t_map));
 	pixel.x = (*x);
 	pixel.y = (*y);
 	pixel.z = ft_atoi(altitude);
@@ -26,9 +26,9 @@ static t_map	form_pixel(size_t *x, size_t *y, char *altitude)
 static void		assign_pixels(size_t *y, char ***array,
 				t_map **line, t_fdf *fdf)
 {
-	size_t			x;
-	size_t			pixels_pre_line;
-	static int		width;
+	size_t		x;
+	size_t		pixels_pre_line;
+	static int	width;
 
 	if (!width)
 		width = MAP_WIDTH;
@@ -51,7 +51,8 @@ static t_map	**create_map(t_list **head, int *lines, char *tmp, t_fdf *fdf)
 	size_t	y;
 
 	y = 0;
-	ft_check_malloc(map = (t_map **)ft_memalloc(sizeof(t_map *) * (MAP_HEIGHT + 1)));
+	ft_check_malloc(map = (t_map **)ft_memalloc(sizeof(t_map *) *
+	(MAP_HEIGHT + 1)));
 	while ((*lines)--)
 	{
 		tmp = (char *)ft_pop(head);
@@ -67,7 +68,7 @@ static t_map	**create_map(t_list **head, int *lines, char *tmp, t_fdf *fdf)
 	return (map);
 }
 
-static void loop_gnl(int fd, t_fdf *fdf)
+static void		loop_gnl(int fd, t_fdf *fdf)
 {
 	char	*line;
 	int		ret;
@@ -91,7 +92,7 @@ static void loop_gnl(int fd, t_fdf *fdf)
 	fdf->map = create_map(&head, &lines, line, fdf);
 }
 
-int			read_from_file(t_fdf *fdf, int ac, char **av)
+int				read_from_file(t_fdf *fdf, int ac, char **av)
 {
 	int		fd;
 

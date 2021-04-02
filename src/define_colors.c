@@ -6,7 +6,7 @@
 /*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 11:01:58 by jrignell          #+#    #+#             */
-/*   Updated: 2021/04/02 14:07:58 by jrignell         ###   ########.fr       */
+/*   Updated: 2021/04/02 17:16:39 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	define_levels(int *max, int *min, t_fdf *fdf)
 	adjust_factor_2 = ft_abs(*min / (decile * 5));
 	fdf->colors->sea = 0;
 	fdf->colors->sea1 = adjust_factor_1 * decile;
-	fdf->colors->sea_1 =  adjust_factor_2 * -decile;
+	fdf->colors->sea_1 = adjust_factor_2 * -decile;
 	fdf->colors->sea2 = adjust_factor_1 * 2 * decile;
 	fdf->colors->sea_2 = adjust_factor_2 * -2 * decile;
 	fdf->colors->sea3 = adjust_factor_1 * 3 * decile;
@@ -44,7 +44,7 @@ static void	define_max_min(t_map *current, int *max, int *min)
 		*min = current->z;
 }
 
-void	define_colors(t_fdf *fdf)
+void		define_colors(t_fdf *fdf)
 {
 	int		x;
 	int		y;

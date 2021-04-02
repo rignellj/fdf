@@ -6,7 +6,7 @@
 /*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 17:56:09 by jrignell          #+#    #+#             */
-/*   Updated: 2021/04/01 18:15:49 by jrignell         ###   ########.fr       */
+/*   Updated: 2021/04/02 17:28:24 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@ static void	axonometric(t_map *point, t_fdf *fdf)
 	prev_x = point->rotated_x;
 	prev_y = point->rotated_y;
 	angle = PROJECTION == DIMETRIC ? RAD15 : RAD30;
-	point->rotated_x = MOUSE_ADD_X + ARROW_ADD_X + (prev_x - prev_y) * cos(angle);
-	point->rotated_y = MOUSE_ADD_Y + ARROW_ADD_Y + -point->rotated_z + (prev_x + prev_y) * sin(angle);
+	point->rotated_x = MOUSE_ADD_X + ARROW_ADD_X +
+	(prev_x - prev_y) * cos(angle);
+	point->rotated_y = MOUSE_ADD_Y + ARROW_ADD_Y +
+	-point->rotated_z + (prev_x + prev_y) * sin(angle);
 }
 
 static void	cabinet(t_map *point, t_fdf *fdf)
@@ -37,7 +39,7 @@ static void	cabinet(t_map *point, t_fdf *fdf)
 	z = point->rotated_z;
 	angle = PROJECTION == CABINET63 ? RAD63 : RAD30;
 	point->rotated_x = MOUSE_ADD_X + ARROW_ADD_X + x + 0.5 * z * cos(angle);
-	point->rotated_y = MOUSE_ADD_Y + ARROW_ADD_Y + y + 0.5 * z * sin(angle);
+	point->rotated_y = MOUSE_ADD_Y + ARROW_ADD_Y + y - 0.5 * z * sin(angle);
 }
 
 static void	conic(t_map *point, t_fdf *fdf)

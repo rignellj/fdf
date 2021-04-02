@@ -6,7 +6,7 @@
 /*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 13:13:23 by jrignell          #+#    #+#             */
-/*   Updated: 2021/04/02 16:51:06 by jrignell         ###   ########.fr       */
+/*   Updated: 2021/04/02 17:30:52 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,12 @@
 
 typedef struct	s_map
 {
-	int		x;
-	int		y;
-	int		z;
-	double	rotated_x;
-	double	rotated_y;
-	double	rotated_z;
+	int			x;
+	int			y;
+	int			z;
+	double		rotated_x;
+	double		rotated_y;
+	double		rotated_z;
 }				t_map;
 
 typedef struct	s_window
@@ -112,17 +112,17 @@ typedef struct	s_controls
 
 typedef struct	s_colors
 {
-	double			sea;
-	double			sea1;
-	double			sea2;
-	double			sea3;
-	double			sea4;
-	double			sea5;
-	double			sea_1;
-	double			sea_2;
-	double			sea_3;
-	double			sea_4;
-	double			sea_5;
+	double		sea;
+	double		sea1;
+	double		sea2;
+	double		sea3;
+	double		sea4;
+	double		sea5;
+	double		sea_1;
+	double		sea_2;
+	double		sea_3;
+	double		sea_4;
+	double		sea_5;
 }				t_colors;
 
 typedef struct	s_fdf
@@ -136,16 +136,16 @@ typedef struct	s_fdf
 	t_colors	*colors;
 }				t_fdf;
 
-void	draw(t_fdf *fdf);
-void	define_colors(t_fdf *fdf);
-int		expose_hook(t_fdf *fdf);
-void	init(t_fdf *fdf);
-void	print_usage(void);
-int		mouse_press(int button, int x, int y, t_fdf *fdf);
-int		key_press(int key, t_fdf *fdf);
-void	perror_exit(char *error, char *message);
-int		read_from_file(t_fdf *fdf, int ac, char **av);
-void	rotate(t_fdf *fdf);
-void	write_into_screen(t_fdf *fdf);
+void			draw(t_fdf *fdf);
+void			define_colors(t_fdf *fdf);
+int				expose_hook(t_fdf *fdf);
+void			init(t_fdf *fdf);
+void			print_usage(void);
+int				mouse_press(int button, int x, int y, t_fdf *fdf);
+int				key_press(int key, t_fdf *fdf);
+void			perror_exit(char *error, char *message);
+int				read_from_file(t_fdf *fdf, int ac, char **av);
+void			rotate(t_fdf *fdf);
+void			write_into_screen(t_fdf *fdf);
 
 #endif

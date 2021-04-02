@@ -6,7 +6,7 @@
 /*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 14:28:39 by jrignell          #+#    #+#             */
-/*   Updated: 2021/04/01 20:40:06 by jrignell         ###   ########.fr       */
+/*   Updated: 2021/04/02 17:18:54 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,8 @@ static void	change_altitude(int key, t_fdf *fdf)
 		(*ALTITUDE)--;
 }
 
-int		key_press(int key, t_fdf *fdf)
+int			key_press(int key, t_fdf *fdf)
 {
-	// ft_printf("key: %d\n", key);
 	if (key == ESC)
 		exit(0);
 	if (key == DELETE || is_key(key))

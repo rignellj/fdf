@@ -6,7 +6,7 @@
 /*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 15:32:34 by jrignell          #+#    #+#             */
-/*   Updated: 2021/04/02 16:34:51 by jrignell         ###   ########.fr       */
+/*   Updated: 2021/04/02 17:21:50 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ static void	draw_slope_lessthan1(t_map *start, t_fdf *fdf, int color)
 		i++;
 	}
 }
+
 static void	draw_slope_morethan1(t_map *start, t_fdf *fdf, int color)
 {
 	int		i;
@@ -100,11 +101,11 @@ static void	init_draw(t_map *start, t_map *end, t_fdf *fdf)
 	else
 	{
 		DECISION_VAR = 2 * DX - DY;
-		draw_slope_morethan1(start, fdf, color(end->z, fdf));	
+		draw_slope_morethan1(start, fdf, color(end->z, fdf));
 	}
 }
 
-void	draw(t_fdf *fdf)
+void		draw(t_fdf *fdf)
 {
 	int		y;
 	int		x;
@@ -116,7 +117,7 @@ void	draw(t_fdf *fdf)
 		while (x < MAP_WIDTH)
 		{
 			if (x < MAP_WIDTH - 1)
-			 	init_draw(START, END_R, fdf);
+				init_draw(START, END_R, fdf);
 			if (y < MAP_HEIGHT - 1)
 				init_draw(START, END_D, fdf);
 			x++;
