@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttampio <ttampio@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 18:39:12 by ttampio           #+#    #+#             */
-/*   Updated: 2020/08/16 11:04:04 by ttampio          ###   ########.fr       */
+/*   Updated: 2021/04/03 13:30:28 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static char		*create_str(const char *s, char c)
+static char	*create_str(const char *s, char c)
 {
 	size_t	i;
 	char	*new_str;
@@ -20,7 +20,8 @@ static char		*create_str(const char *s, char c)
 	i = 0;
 	while (s[i] && s[i] != c)
 		i++;
-	if (!(new_str = (char*)malloc(sizeof(char) * (i + 1))))
+	new_str = (char *)malloc(sizeof(char) * (i + 1));
+	if (!(new_str))
 		return (NULL);
 	ft_strncpy(new_str, s, i);
 	new_str[i] = '\0';
@@ -47,8 +48,7 @@ static size_t	ft_count_words(char const *s, char c)
 	return (ctr);
 }
 
-static int		create_str_arr(const char *s, char **str_arr, char c, \
-	size_t wrds)
+static int	create_str_arr(const char *s, char **str_arr, char c, size_t wrds)
 {
 	size_t	i;
 	size_t	j;
@@ -76,7 +76,7 @@ static int		create_str_arr(const char *s, char **str_arr, char c, \
 	return (1);
 }
 
-static void		ft_free_strings(char **str_arr)
+static void	ft_free_strings(char **str_arr)
 {
 	size_t	i;
 
@@ -85,16 +85,17 @@ static void		ft_free_strings(char **str_arr)
 	{
 		ft_strdel(&str_arr[i++]);
 	}
-	ft_memdel((void*)str_arr);
+	ft_memdel((void *)str_arr);
 }
 
-char			**ft_strsplit(char const *s, char c)
+char	**ft_strsplit(char const *s, char c)
 {
 	size_t	word_count;
 	char	**str_arr;
 
 	word_count = ft_count_words(s, c);
-	if (!(str_arr = (char**)malloc(sizeof(char*) * (word_count + 1))))
+	str_arr = (char **)malloc(sizeof(char *) * (word_count + 1));
+	if (!(str_arr))
 		return (NULL);
 	if (create_str_arr(s, str_arr, c, word_count) == 0)
 		ft_free_strings(str_arr);

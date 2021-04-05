@@ -6,7 +6,7 @@
 /*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/27 13:36:21 by jrignell          #+#    #+#             */
-/*   Updated: 2020/04/12 14:24:13 by jrignell         ###   ########.fr       */
+/*   Updated: 2021/04/03 19:29:51 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,11 @@ static void	ft_join_free_old(t_format *f, char *tmp)
 {
 	char	*s1;
 
-	s1 = NULL;
 	if (f->minus)
 		s1 = ft_strjoin(f->nbr, tmp);
 	else
 		s1 = ft_strjoin(tmp, f->nbr);
-	if (s1 == NULL)
+	if (!s1)
 		exit(4);
 	ft_strdel(&f->nbr);
 	f->nbr = s1;
@@ -41,30 +40,45 @@ static char	ft_return_char(t_format *f)
 	return (' ');
 }
 
-void		ft_parse_width(t_format *f)
+static void	width(t_format *f)
+{
+	char	*tmp;
+	int		len;
+	size_t	i;
+	char	flag;
+
+	i = 0;
+	flag = ft_return_char(f);
+	len = (int)ft_strlen(f->nbr);
+	tmp = ft_strnew(f->width - len);
+	if (!tmp)
+		exit(4);
+	while (f->width > len++)
+		tmp[i++] = flag;
+	ft_join_free_old(f, tmp);
+}
+
+void	ft_parse_width(t_format *f)
 {
 	int		len;
 	char	*tmp;
 	int		i;
-	char	flag;
 
 	tmp = NULL;
 	len = (int)ft_strlen(f->nbr);
-	f->width -= f->format == 'c' && f->null == 1 ? 1 : 0;
+	if (f->format == 'c' && f->null == 1)
+		f->width -= 1;
+	else
+		f->width -= 0;
 	if (len >= f->width && f->format != 's')
 		return ;
-	flag = ft_return_char(f);
 	i = 0;
 	if (f->prec >= f->width && f->format != 's')
 		return ;
 	if (f->width > len)
-	{
-		if (!(tmp = ft_strnew(((f->width) - len))))
-			exit(4);
-		while (f->width > len++)
-			tmp[i++] = flag;
-		ft_join_free_old(f, tmp);
-	}
-	f->format == 'd' || f->format == 'i' || f->format == 'f' ?
-		swap_chars(f) : swap_0x(f);
+		width(f);
+	if (f->format == 'd' || f->format == 'i' || f->format == 'f')
+		swap_chars(f);
+	else
+		swap_0x(f);
 }

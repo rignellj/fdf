@@ -6,7 +6,7 @@
 /*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 11:01:58 by jrignell          #+#    #+#             */
-/*   Updated: 2021/04/02 17:16:39 by jrignell         ###   ########.fr       */
+/*   Updated: 2021/04/02 19:48:56 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	define_max_min(t_map *current, int *max, int *min)
 		*min = current->z;
 }
 
-void		define_colors(t_fdf *fdf)
+void	define_colors(t_fdf *fdf)
 {
 	int		x;
 	int		y;
@@ -53,10 +53,10 @@ void		define_colors(t_fdf *fdf)
 	y = 0;
 	max_min[0] = 0;
 	max_min[1] = 0;
-	while (y < MAP_HEIGHT)
+	while (y < fdf->height)
 	{
 		x = 0;
-		while (x < MAP_WIDTH)
+		while (x < fdf->width)
 		{
 			define_max_min(&fdf->map[y][x], &max_min[0], &max_min[1]);
 			x++;

@@ -6,7 +6,7 @@
 /*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 15:12:06 by jrignell          #+#    #+#             */
-/*   Updated: 2021/03/31 17:22:37 by jrignell         ###   ########.fr       */
+/*   Updated: 2021/04/02 19:59:23 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,27 @@
 static void	zoom(int button, t_fdf *fdf)
 {
 	if (button == ZOOM_IN)
-		(*ZOOM) += 8;
+		fdf->controls->zoom += 8;
 	else
-		*ZOOM = *ZOOM > 8 ? *ZOOM - 8 : 1;
-	mlx_clear_window(MLX_PTR, WIN_PTR);
+	{
+		if (fdf->controls->zoom > 8)
+			fdf->controls->zoom -= 8;
+		else
+			fdf->controls->zoom = 1;
+	}
+	mlx_clear_window(fdf->mlx_ptr, fdf->win_ptr);
 	expose_hook(fdf);
 }
 
 static void	set_relative_position(int x, int y, t_fdf *fdf)
 {
-	MOUSE_ADD_X = x;
-	MOUSE_ADD_Y = y;
-	mlx_clear_window(MLX_PTR, WIN_PTR);
+	fdf->controls->fixed_dx = x;
+	fdf->controls->fixed_dy = y;
+	mlx_clear_window(fdf->mlx_ptr, fdf->win_ptr);
 	expose_hook(fdf);
 }
 
-int			mouse_press(int button, int x, int y, t_fdf *fdf)
+int	mouse_press(int button, int x, int y, t_fdf *fdf)
 {
 	if (button == ZOOM_IN || button == ZOOM_OUT)
 		zoom(button, fdf);

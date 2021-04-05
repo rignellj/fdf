@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libftprintf.h                                      :+:      :+:    :+:   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/05 15:33:56 by jrignell          #+#    #+#             */
-/*   Updated: 2021/03/22 18:28:12 by jrignell         ###   ########.fr       */
+/*   Updated: 2021/04/03 19:34:47 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@
 # define CULINEDREVV "\x1B[4;7m"
 # define CRAPIDBLINK "\x1B[6m"
 
-typedef struct	s_format
+typedef struct s_format
 {
 	char		*s_str;
 	int			format;
@@ -122,7 +122,7 @@ int				ft_check_error(char *format);
 char			ft_check_type(char c);
 int				ft_len_format(char *f, unsigned int *i);
 void			ft_form_struct(t_format *f, char *format,
-				unsigned i, unsigned j);
+					unsigned i, unsigned j);
 
 /*
 ********************************************************************************

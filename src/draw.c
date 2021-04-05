@@ -6,7 +6,7 @@
 /*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 15:32:34 by jrignell          #+#    #+#             */
-/*   Updated: 2021/04/02 17:21:50 by jrignell         ###   ########.fr       */
+/*   Updated: 2021/04/03 21:31:31 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,17 @@ static void	draw_slope_lessthan1(t_map *start, t_fdf *fdf, int color)
 	i = 0;
 	x = (int)start->rotated_x;
 	y = (int)start->rotated_y;
-	while (i <= DX)
+	while (i <= fdf->draw->dx)
 	{
-		mlx_pixel_put(MLX_PTR, WIN_PTR, x, y, color);
-		if (DECISION_VAR > 0)
+		mlx_pixel_put(fdf->mlx_ptr, fdf->win_ptr, x, y, color);
+		if (fdf->draw->decision_var > 0)
 		{
-			DECISION_VAR = DECISION_VAR + 2 * (DY - DX);
-			y += SLOPE_Y;
+			fdf->draw->decision_var += 2 * (fdf->draw->dy - fdf->draw->dx);
+			y += fdf->draw->slope_y;
 		}
 		else
-			DECISION_VAR = DECISION_VAR + 2 * DY;
-		x += SLOPE_X;
+			fdf->draw->decision_var += 2 * fdf->draw->dy;
+		x += fdf->draw->slope_x;
 		i++;
 	}
 }
@@ -72,54 +72,60 @@ static void	draw_slope_morethan1(t_map *start, t_fdf *fdf, int color)
 	i = 0;
 	x = (int)start->rotated_x;
 	y = (int)start->rotated_y;
-	while (i <= DY)
+	while (i <= fdf->draw->dy)
 	{
-		mlx_pixel_put(MLX_PTR, WIN_PTR, x, y, color);
-		if (DECISION_VAR > 0)
+		mlx_pixel_put(fdf->mlx_ptr, fdf->win_ptr, x, y, color);
+		if (fdf->draw->decision_var > 0)
 		{
-			DECISION_VAR = DECISION_VAR + 2 * (DX - DY);
-			x += SLOPE_X;
+			fdf->draw->decision_var += 2 * (fdf->draw->dx - fdf->draw->dy);
+			x += fdf->draw->slope_x;
 		}
 		else
-			DECISION_VAR = DECISION_VAR + 2 * DX;
-		y += SLOPE_Y;
+			fdf->draw->decision_var += 2 * fdf->draw->dx;
+		y += fdf->draw->slope_y;
 		i++;
 	}
 }
 
 static void	init_draw(t_map *start, t_map *end, t_fdf *fdf)
 {
-	DX = ft_abs(end->rotated_x - start->rotated_x);
-	DY = ft_abs(end->rotated_y - start->rotated_y);
-	SLOPE_Y = end->rotated_y >= start->rotated_y ? 1 : -1;
-	SLOPE_X = end->rotated_x >= start->rotated_x ? 1 : -1;
-	if (DX > DY)
+	fdf->draw->dx = ft_abs(end->rotated_x - start->rotated_x);
+	fdf->draw->dy = ft_abs(end->rotated_y - start->rotated_y);
+	if (end->rotated_y >= start->rotated_y)
+		fdf->draw->slope_y = 1;
+	else
+		fdf->draw->slope_y = -1;
+	if (end->rotated_x >= start->rotated_x)
+		fdf->draw->slope_x = 1;
+	else
+		fdf->draw->slope_x = -1;
+	if (fdf->draw->dx > fdf->draw->dy)
 	{
-		DECISION_VAR = 2 * DY - DX;
+		fdf->draw->decision_var = 2 * fdf->draw->dy - fdf->draw->dx;
 		draw_slope_lessthan1(start, fdf, color(end->z, fdf));
 	}
 	else
 	{
-		DECISION_VAR = 2 * DX - DY;
+		fdf->draw->decision_var = 2 * fdf->draw->dx - fdf->draw->dy;
 		draw_slope_morethan1(start, fdf, color(end->z, fdf));
 	}
 }
 
-void		draw(t_fdf *fdf)
+void	draw(t_fdf *fdf)
 {
 	int		y;
 	int		x;
 
 	y = 0;
-	while (y < MAP_HEIGHT)
+	while (y < fdf->height)
 	{
 		x = 0;
-		while (x < MAP_WIDTH)
+		while (x < fdf->width)
 		{
-			if (x < MAP_WIDTH - 1)
-				init_draw(START, END_R, fdf);
-			if (y < MAP_HEIGHT - 1)
-				init_draw(START, END_D, fdf);
+			if (x < fdf->width - 1)
+				init_draw(&fdf->map[y][x], &fdf->map[y][x + 1], fdf);
+			if (y < fdf->height - 1)
+				init_draw(&fdf->map[y][x], &fdf->map[y + 1][x], fdf);
 			x++;
 		}
 		y++;

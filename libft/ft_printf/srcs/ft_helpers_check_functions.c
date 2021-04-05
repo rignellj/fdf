@@ -6,7 +6,7 @@
 /*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 20:33:23 by jrignell          #+#    #+#             */
-/*   Updated: 2020/04/12 14:23:17 by jrignell         ###   ########.fr       */
+/*   Updated: 2021/04/03 20:11:43 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,15 @@ void	define_asterisk(t_format *f, va_list ap)
 		f->prec = va_arg(ap, unsigned);
 }
 
-int		ft_check_if_width(t_format *f)
+int	ft_check_if_width(t_format *f)
 {
 	char			*ptr;
 	int				ret;
 	unsigned int	i;
 
 	ret = 0;
-	if ((ptr = ft_strchr(f->s_str, '$')) != NULL)
+	ptr = ft_strchr(f->s_str, '$');
+	if (ptr != NULL)
 	{
 		ret = ft_atoi(++ptr);
 		ptr = NULL;
@@ -48,7 +49,7 @@ int		ft_check_if_width(t_format *f)
 	return (0);
 }
 
-int		iszero(t_format *f)
+int	iszero(t_format *f)
 {
 	int		i;
 

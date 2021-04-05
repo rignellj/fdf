@@ -6,7 +6,7 @@
 /*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 13:41:08 by jrignell          #+#    #+#             */
-/*   Updated: 2020/04/12 14:24:27 by jrignell         ###   ########.fr       */
+/*   Updated: 2021/04/03 20:29:02 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ static void	ft_precision_s(t_format *f, int prec)
 
 	if (prec < (int)ft_strlen(f->nbr))
 	{
-		tmp = NULL;
-		if (!(tmp = ft_strsub(f->nbr, 0, prec)))
+		tmp = ft_strsub(f->nbr, 0, prec);
+		if (!tmp)
 			exit(0);
 		ft_strdel(&f->nbr);
 		f->nbr = tmp;
@@ -36,13 +36,14 @@ static void	ft_precision_s(t_format *f, int prec)
 	tmp = NULL;
 }
 
-int			ft_if_precision_diouxs(t_format *f)
+int	ft_if_precision_diouxs(t_format *f)
 {
 	char	*ptr;
 	int		ret;
 
 	ret = 0;
-	if ((ptr = ft_strchr(f->s_str, '.')) == NULL)
+	ptr = ft_strchr(f->s_str, '.');
+	if (!ptr)
 		return (0);
 	ptr++;
 	if (!ft_isdigit(*ptr))
@@ -60,7 +61,7 @@ int			ft_if_precision_diouxs(t_format *f)
 ** for the integer formats %d, %o, %x, and %u
 */
 
-void		ft_parse_precision(t_format *f)
+void	ft_parse_precision(t_format *f)
 {
 	int		len;
 	char	*tmp;
@@ -77,7 +78,8 @@ void		ft_parse_precision(t_format *f)
 		f->prec++;
 	if (f->prec > len)
 	{
-		if (!(tmp = ft_strnew(f->prec - len)))
+		tmp = ft_strnew(f->prec - len);
+		if (!tmp)
 			exit(0);
 		while (f->prec > len++)
 			tmp[i++] = '0';

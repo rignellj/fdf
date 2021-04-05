@@ -6,32 +6,44 @@
 /*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 16:56:26 by jrignell          #+#    #+#             */
-/*   Updated: 2021/03/23 13:00:29 by jrignell         ###   ########.fr       */
+/*   Updated: 2021/04/03 18:35:03 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char    *ft_itoa_base_u(unsigned long long int value, int base, int upper)
+static void	init(char **s, int upper, int *i)
 {
-        char                            *s;
-        char                            *res;
-        int                                     i;
-        unsigned long long      temp;
+	if (upper == 1)
+		*s = "0123456789ABCDEF";
+	else
+		*s = "0123456789abcdef";
+	*i = 1;
+}
 
-        s = (upper == 1) ? "0123456789ABCDEF" : "0123456789abcdef";
-        i = 1;
-        temp = value;
-        while ((temp /= base) > 0)
-                i++;
-        if (!(res = ft_strnew(i)))
-                return (NULL);
-        if (!value)
-                *res = '0';
-        while (value)
-        {
-                res[--i] = s[value % base];
-                value = value / base;
-        }
-        return (res);
+char	*ft_itoa_base_u(unsigned long long int value, int base, int upper)
+{
+	char				*s;
+	char				*res;
+	int					i;
+	unsigned long long	temp;
+
+	init(&s, upper, &i);
+	temp = value;
+	while (temp > 0)
+	{
+		temp /= base;
+		i++;
+	}
+	res = ft_strnew(i);
+	if (!res)
+		return (NULL);
+	if (!value)
+		*res = '0';
+	while (value)
+	{
+		res[--i] = s[value % base];
+		value = value / base;
+	}
+	return (res);
 }

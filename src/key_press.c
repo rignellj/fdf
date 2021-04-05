@@ -6,7 +6,7 @@
 /*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 14:28:39 by jrignell          #+#    #+#             */
-/*   Updated: 2021/04/02 17:18:54 by jrignell         ###   ########.fr       */
+/*   Updated: 2021/04/02 19:58:58 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,21 @@
 
 static int	is_key(int key)
 {
-	return (key == ENTER || key == ENTER_2 || key == ISO || key == CONIC ||
-		key == DIMETRIC || key == CABINET30 || key == CABINET63 || key == KEY_X
-		|| key == KEY_Z || (key >= 123 && key <= 126));
+	return (key == ENTER || key == ENTER_2 || key == ISO || key == CONIC
+		|| key == DIMETRIC || key == CABINET30 || key == CABINET63
+		|| key == KEY_X || key == KEY_Z || (key >= 123 && key <= 126));
 }
 
 static void	arrow_key_press(int key, t_fdf *fdf)
 {
 	if (key == LEFT_ARROW)
-		ARROW_ADD_X -= PIXELS_TO_MOVE_WITH_ARROW;
+		fdf->controls->move_parallel_x -= PIXELS_TO_MOVE_WITH_ARROW;
 	else if (key == RIGHT_ARROW)
-		ARROW_ADD_X += PIXELS_TO_MOVE_WITH_ARROW;
+		fdf->controls->move_parallel_x += PIXELS_TO_MOVE_WITH_ARROW;
 	else if (key == DOWN_ARROW)
-		ARROW_ADD_Y += PIXELS_TO_MOVE_WITH_ARROW;
+		fdf->controls->move_parallel_y += PIXELS_TO_MOVE_WITH_ARROW;
 	else
-		ARROW_ADD_Y -= PIXELS_TO_MOVE_WITH_ARROW;
+		fdf->controls->move_parallel_y -= PIXELS_TO_MOVE_WITH_ARROW;
 }
 
 static void	change_projection(int key, t_fdf *fdf)
@@ -48,23 +48,23 @@ static void	change_projection(int key, t_fdf *fdf)
 static void	change_altitude(int key, t_fdf *fdf)
 {
 	if (key == KEY_Z)
-		(*ALTITUDE)++;
+		fdf->controls->change_altitude++;
 	else
-		(*ALTITUDE)--;
+		fdf->controls->change_altitude--;
 }
 
-int			key_press(int key, t_fdf *fdf)
+int	key_press(int key, t_fdf *fdf)
 {
 	if (key == ESC)
 		exit(0);
 	if (key == DELETE || is_key(key))
-		mlx_clear_window(MLX_PTR, WIN_PTR);
+		mlx_clear_window(fdf->mlx_ptr, fdf->win_ptr);
 	if (key >= 123 && key <= 126)
 		arrow_key_press(key, fdf);
 	else if (key == KEY_X || key == KEY_Z)
 		change_altitude(key, fdf);
-	else if (key == ISO || key == DIMETRIC || key == CONIC ||
-		key == CABINET30 || key == CABINET63)
+	else if (key == ISO || key == DIMETRIC || key == CONIC
+		|| key == CABINET30 || key == CABINET63)
 		change_projection(key, fdf);
 	if (is_key(key))
 		expose_hook(fdf);

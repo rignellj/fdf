@@ -6,7 +6,7 @@
 /*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/27 11:54:20 by jrignell          #+#    #+#             */
-/*   Updated: 2020/04/12 14:24:44 by jrignell         ###   ########.fr       */
+/*   Updated: 2021/04/03 20:16:22 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@
 static void	ft_nbr_zero_free(t_format *f)
 {
 	ft_strdel(&f->nbr);
-	f->nbr = f->dot && f->prec == 0 ? ft_strdup("\0") : ft_strdup("0");
+	if (f->dot && f->prec == 0)
+		f->nbr = ft_strdup("\0");
+	else
+		f->nbr = ft_strdup("0");
 	if (f->nbr == NULL)
 		exit(1);
 }
@@ -52,7 +55,7 @@ static void	ft_parse_plus_flag(t_format *f)
 		ft_str_free(f, ft_strdup("+"), 1, 1);
 }
 
-void		ft_parse_flags(t_format *f)
+void	ft_parse_flags(t_format *f)
 {
 	if ((f->format == 'd' || f->format == 'i' || f->format == 'f')
 		&& f->plus && f->sign == '+')

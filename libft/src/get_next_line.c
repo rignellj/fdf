@@ -6,7 +6,7 @@
 /*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 14:57:54 by jrignell          #+#    #+#             */
-/*   Updated: 2021/03/22 14:58:00 by jrignell         ###   ########.fr       */
+/*   Updated: 2021/04/03 13:27:52 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,22 +40,32 @@ static int	check_buf_trim_line(char **str, char **line, int ret, int fd)
 	return (1);
 }
 
-int			get_next_line(const int fd, char **line)
+static int	init_and_check(int fd, char ***line, int *ret)
+{
+	if (fd < 0 || !*line)
+		return (-1);
+	*ret = 1;
+	return (0);
+}
+
+int	get_next_line(const int fd, char **line)
 {
 	char		buf[BUFF_SIZE + 1];
 	int			ret;
 	char		*tmp;
 	static char	*str[FD_SIZE];
 
-	if (fd < 0 || !line)
+	if (init_and_check(fd, &line, &ret))
 		return (-1);
-	while ((ret = read(fd, buf, BUFF_SIZE)) > 0)
+	while (ret > 0)
 	{
+		ret = read(fd, buf, BUFF_SIZE);
+		if (ret <= 0)
+			break ;
 		buf[ret] = '\0';
 		if (str[fd] == NULL)
 			str[fd] = ft_strnew(1);
-		tmp = ft_strjoin(str[fd], buf);
-		free(str[fd]);
+		tmp = ft_strjoinfree(str[fd], buf, FREE_LEFT);
 		str[fd] = tmp;
 		if (ft_strchr(str[fd], '\n'))
 			break ;

@@ -6,7 +6,7 @@
 /*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 11:29:38 by jrignell          #+#    #+#             */
-/*   Updated: 2020/05/12 14:15:12 by jrignell         ###   ########.fr       */
+/*   Updated: 2021/04/03 20:24:31 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,25 @@ static void	ft_check_flags(t_format *f)
 		exit(5);
 }
 
-int			check_bef_format_u(t_format *f, unsigned long long print)
+static void	init(t_format *f, int *upper_or_len, unsigned long long print)
+{
+	f->sign = '+';
+	if (!print)
+		f->null = 1;
+	else
+		f->null = 0;
+	if (f->format == 'X')
+		*upper_or_len = 1;
+	else
+		*upper_or_len = 0;
+}
+
+int	check_bef_format_u(t_format *f, unsigned long long print)
 {
 	int		upper_or_len;
 
-	f->null = print == 0 ? 1 : 0;
-	upper_or_len = (f->format == 'X') ? 1 : 0;
-	f->sign = '+';
-	if ((!f->len && f->format == 'o'))
+	init(f, &upper_or_len, print);
+	if (!f->len && f->format == 'o')
 		f->nbr = ft_itoa_base((unsigned)print, 8, 0);
 	else if (f->len && f->format == 'o')
 		hh_h_ll_l_u(f, print, 8, 0);

@@ -6,13 +6,13 @@
 /*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/12 14:06:11 by jrignell          #+#    #+#             */
-/*   Updated: 2020/05/20 14:19:31 by jrignell         ###   ########.fr       */
+/*   Updated: 2021/04/03 20:04:35 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int				ft_dprintf(int fd, const char *format, ...)
+int	ft_dprintf(int fd, const char *format, ...)
 {
 	va_list			ap;
 	unsigned int	i;
@@ -23,13 +23,13 @@ int				ft_dprintf(int fd, const char *format, ...)
 	va_start(ap, format);
 	i = 0;
 	ret = 0;
-	while (format[i] && ft_check_error((char*)format))
+	while (format[i] && ft_check_error((char *)format))
 	{
 		j = 1;
 		if (format[i] == '%')
 		{
-			j = ft_len_format((char*)format, &i);
-			ft_form_struct(&f, (char*)format, i + 1, j);
+			j = ft_len_format((char *)format, &i);
+			ft_form_struct(&f, (char *)format, i + 1, j);
 			ret += diouxf(&f, ap, fd) - 1;
 			i += j + 1;
 		}

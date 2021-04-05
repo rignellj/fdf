@@ -6,7 +6,7 @@
 /*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 17:45:25 by jrignell          #+#    #+#             */
-/*   Updated: 2020/05/12 14:15:55 by jrignell         ###   ########.fr       */
+/*   Updated: 2021/04/03 20:15:21 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,17 @@ static int	ft_check_prev_f(t_format *f, long double print, int precision)
 {
 	int		len;
 
-	f->null = print == 0 ? 1 : 0;
+	if (print == 0)
+		f->null = 1;
+	else
+		f->null = 0;
 	f->nbr = ft_lftoa(print, precision);
 	if (!f->nbr)
 		exit(6);
-	f->sign = print >= 0 ? '+' : '-';
+	if (print >= 0)
+		f->sign = '+';
+	else
+		f->sign = '-';
 	if (f->plus || f->space || f->hash)
 		ft_parse_flags(f);
 	if (f->width)
@@ -42,7 +48,8 @@ static int	ft_precision_f(t_format *f)
 	if (!f->s_str)
 		exit(6);
 	ret = 0;
-	if ((ptr = ft_strchr(f->s_str, '.')) == NULL)
+	ptr = ft_strchr(f->s_str, '.');
+	if (ptr == NULL)
 		return (6);
 	ptr++;
 	if (!ft_isdigit(*ptr))
@@ -55,10 +62,13 @@ static int	ft_precision_f(t_format *f)
 	return (ret);
 }
 
-int			ft_parse_f(t_format *f, va_list ap)
+int	ft_parse_f(t_format *f, va_list ap)
 {
 	long double	print;
 
-	print = f->len == 'L' ? va_arg(ap, long double) : va_arg(ap, double);
+	if (f->len == 'L')
+		print = va_arg(ap, long double);
+	else
+		print = va_arg(ap, double);
 	return (ft_check_prev_f(f, print, ft_precision_f(f)));
 }

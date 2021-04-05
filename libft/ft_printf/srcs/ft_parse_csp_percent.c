@@ -6,7 +6,7 @@
 /*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 14:29:55 by jrignell          #+#    #+#             */
-/*   Updated: 2020/05/12 14:17:52 by jrignell         ###   ########.fr       */
+/*   Updated: 2021/04/03 20:43:19 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ static void	ft_print_address(va_list ap, t_format *f)
 	char			*tmp2;
 
 	address = va_arg(ap, long long int);
-	f->null = address == 0 ? 1 : 0;
+	if (address == 0)
+		f->null = 1;
+	else
+		f->null = 0;
 	tmp = ft_itoa_base_u(address, 16, 0);
 	if (tmp == NULL)
 		exit(7);
@@ -35,40 +38,61 @@ static void	ft_print_str(va_list ap, t_format *f)
 {
 	char	*printable;
 
-	printable = va_arg(ap, char*);
-	f->null = printable == 0 ? 1 : 0;
-	f->nbr = printable ? ft_strdup(printable) : ft_strdup("(null)");
+	printable = va_arg(ap, char *);
+	if (printable == 0)
+	{
+		f->null = 1;
+		f->nbr = ft_strdup("(null)");
+	}
+	else
+	{
+		f->null = 0;
+		f->nbr = ft_strdup(printable);
+	}
 	if (f->nbr == NULL)
 		exit(7);
 	printable = NULL;
 }
 
-static void	ft_parse_char(char c, t_format *f)
+static void	ft_handle_char(va_list ap, t_format *f)
 {
 	char	str[2];
 
-	str[0] = c;
+	if (f->format == '%')
+		str[0] = '%';
+	else
+		str[0] = va_arg(ap, int);
 	str[1] = '\0';
+	if (str[0] == 0)
+		f->null = 1;
+	else
+		f->null = 0;
 	f->nbr = ft_strdup(str);
 	if (f->nbr == NULL)
 		exit(7);
 }
 
-static char	ft_handle_char(va_list ap, t_format *f)
+static void	print_char(t_format *f, int *len)
 {
-	char	printable;
-
-	printable = va_arg(ap, int);
-	f->null = printable == 0 ? 1 : 0;
-	return (printable);
+	if (f->minus)
+	{
+		ft_putchar_fd('\0', f->fd);
+		ft_putstr_fd(f->nbr, f->fd);
+	}
+	else
+	{
+		ft_putstr_fd(f->nbr, f->fd);
+		ft_putchar_fd('\0', f->fd);
+	}
+	*len = ft_strlen(f->nbr) + 1;
 }
 
-int			ft_parse_csp_percent(t_format *f, va_list ap)
+int	ft_parse_csp_percent(t_format *f, va_list ap)
 {
 	int		len;
 
 	if (f->format == 'c' || f->format == '%')
-		ft_parse_char((f->format == '%') ? '%' : ft_handle_char(ap, f), f);
+		ft_handle_char(ap, f);
 	else if (f->format == 's')
 		ft_print_str(ap, f);
 	else if (f->format == 'p')
@@ -78,14 +102,12 @@ int			ft_parse_csp_percent(t_format *f, va_list ap)
 	if (f->width)
 		ft_parse_width(f);
 	if (f->format == 'c' && f->null == 1)
-	{
-		f->minus ? ft_putchar_fd('\0', f->fd) : ft_putstr_fd(f->nbr, f->fd);
-		f->minus ? ft_putstr_fd(f->nbr, f->fd) : ft_putchar_fd('\0', f->fd);
-	}
+		print_char(f, &len);
 	else
+	{
 		ft_putstr_fd(f->nbr, f->fd);
-	len = f->format == 'c' && f->null == 1 ? ft_strlen(f->nbr) + 1
-		: ft_strlen(f->nbr);
+		len = ft_strlen(f->nbr);
+	}
 	ft_struct_del(f);
 	return (len);
 }

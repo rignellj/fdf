@@ -6,13 +6,13 @@
 /*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/26 20:03:19 by jrignell          #+#    #+#             */
-/*   Updated: 2020/07/26 20:04:24 by jrignell         ###   ########.fr       */
+/*   Updated: 2021/04/03 19:13:03 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "stack.h"
 
-int		ft_isempty(t_list *head)
+int	ft_isempty(t_list *head)
 {
 	return (!head);
 }

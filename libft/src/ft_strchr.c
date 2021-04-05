@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttampio <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 11:06:03 by ttampio           #+#    #+#             */
-/*   Updated: 2019/10/28 14:07:44 by ttampio          ###   ########.fr       */
+/*   Updated: 2021/04/03 18:37:57 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*ft_strchr(const char *s, int c)
 	{
 		if (s[i] == chr)
 		{
-			return ((char*)&s[i]);
+			return ((char *)&s[i]);
 		}
 		i++;
 	}

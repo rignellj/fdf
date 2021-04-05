@@ -6,14 +6,14 @@
 /*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/05 14:57:34 by jrignell          #+#    #+#             */
-/*   Updated: 2020/05/12 14:24:29 by jrignell         ###   ########.fr       */
+/*   Updated: 2021/04/03 21:05:34 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include <stdlib.h>
 
-char			ft_check_type(char c)
+char	ft_check_type(char c)
 {
 	char		*array;
 	int			i;
@@ -35,7 +35,7 @@ char			ft_check_type(char c)
 	return (0);
 }
 
-int				ft_len_format(char *f, unsigned int *i)
+int	ft_len_format(char *f, unsigned int *i)
 {
 	unsigned int	j;
 
@@ -45,29 +45,7 @@ int				ft_len_format(char *f, unsigned int *i)
 	return (j);
 }
 
-void			ft_form_struct(t_format *f, char *format,
-				unsigned i, unsigned j)
-{
-	char	c;
-
-	ft_put_zero(f);
-	if (!(f->s_str = ft_strsub(format, i, j)))
-		exit(-1);
-	f->format = f->s_str[ft_strlen(f->s_str) - 1];
-	c = f->format;
-	f->len = which_len(f);
-	f->dot = (ft_strchr(f->s_str, '.') ? 1 : 0);
-	f->minus = (ft_strchr(f->s_str, '-') ? 1 : 0);
-	f->space = (ft_strchr(f->s_str, ' ') ? 1 : 0);
-	f->plus = (ft_strchr(f->s_str, '+') ? 1 : 0);
-	f->hash = (ft_strchr(f->s_str, '#') ? 1 : 0);
-	f->prec = f->dot ? ft_if_precision_diouxs(f) : 0;
-	f->width = ft_check_if_width(f);
-	f->zero = (f->minus || (f->dot && (c == 'd' || c == 'i' || c == 'o' ||
-		c == 'u' || c == 'x' || c == 'X'))) ? 0 : iszero(f);
-}
-
-int				ft_check_error(char *format)
+int	ft_check_error(char *format)
 {
 	int		i;
 	int		percent;
@@ -90,7 +68,7 @@ int				ft_check_error(char *format)
 	return (1);
 }
 
-int				ft_printf(const char *format, ...)
+int	ft_printf(const char *format, ...)
 {
 	va_list			ap;
 	unsigned int	i;
@@ -101,13 +79,13 @@ int				ft_printf(const char *format, ...)
 	va_start(ap, format);
 	i = 0;
 	ret = 0;
-	while (format[i] && ft_check_error((char*)format))
+	while (format[i] && ft_check_error((char *)format))
 	{
 		j = 1;
 		if (format[i] == '%')
 		{
-			j = ft_len_format((char*)format, &i);
-			ft_form_struct(&f, (char*)format, i + 1, j);
+			j = ft_len_format((char *)format, &i);
+			ft_form_struct(&f, (char *)format, i + 1, j);
 			ret += diouxf(&f, ap, 1) - 1;
 			i += j + 1;
 		}

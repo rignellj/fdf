@@ -6,7 +6,7 @@
 /*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 11:26:13 by jrignell          #+#    #+#             */
-/*   Updated: 2020/05/12 14:14:19 by jrignell         ###   ########.fr       */
+/*   Updated: 2021/04/03 20:31:17 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,22 @@ static int	print_free_return(t_format *f)
 	return (len);
 }
 
-int			check_bef_format(t_format *f, long long print)
+int	check_bef_format(t_format *f, long long print)
 {
-	f->null = print == 0 ? 1 : 0;
+	if (print == 0)
+		f->null = 1;
+	else
+		f->null = 0;
 	if (!f->len)
 		f->nbr = ft_itoa_base((int)print, 10, 0);
 	else
 		hh_h_ll_l(f, print, 10, 0);
 	if (!f->nbr)
 		exit(1);
-	f->sign = print >= 0 ? '+' : '-';
+	if (print < 0)
+		f->sign = '-';
+	else
+		f->sign = '+';
 	if (f->dot)
 		ft_parse_precision(f);
 	if (f->plus || f->space || f->hash)

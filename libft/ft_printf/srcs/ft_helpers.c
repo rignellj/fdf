@@ -6,39 +6,11 @@
 /*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/27 12:20:05 by jrignell          #+#    #+#             */
-/*   Updated: 2020/05/22 17:22:21 by jrignell         ###   ########.fr       */
+/*   Updated: 2021/04/03 21:12:06 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdlib.h>
-
-void	ft_str_free(t_format *f, char *tmp, int i, int j)
-{
-	char	*new_nbr;
-
-	new_nbr = NULL;
-	if (j && !tmp)
-		exit(2);
-	if (!i)
-	{
-		if (!(new_nbr = *f->nbr == '\0' ? ft_strdup("\0") : ft_strdup(f->nbr)))
-			exit(2);
-		ft_strdel(&f->nbr);
-		if ((f->width || f->format == 's' || f->format == 'f'))
-			if (!(f->nbr = ft_strjoin(new_nbr, tmp)))
-				exit(2);
-	}
-	else
-	{
-		if (!(new_nbr = ft_strdup(f->nbr)))
-			exit(2);
-		ft_strdel(&f->nbr);
-		f->nbr = ft_strjoin(tmp, new_nbr);
-	}
-	ft_strdel(&tmp);
-	ft_strdel(&new_nbr);
-}
 
 void	ft_put_zero(t_format *f)
 {
@@ -79,23 +51,21 @@ void	swap_0x(t_format *f)
 	char	*c;
 	char	*b;
 
-	c = NULL;
-	b = NULL;
-	if (!(c = ft_strchr(f->s_str, 'X')))
-		if (!(c = ft_strchr(f->s_str, 'x')))
-			return ;
-	if (!(b = ft_strchr(f->nbr, *c)))
+	c = ft_strchr(f->s_str, 'X');
+	if (!c)
 	{
-		c = NULL;
-		return ;
+		c = ft_strchr(f->s_str, 'x');
+		if (!c)
+			return ;
 	}
+	b = ft_strchr(f->nbr, *c);
+	if (!b)
+		return ;
 	if (f->nbr[0] == '0' && f->nbr[1] != *c && b)
 	{
 		f->nbr[1] = *c;
 		*b = '0';
 	}
-	c = NULL;
-	b = NULL;
 }
 
 void	ft_struct_del(t_format *f)

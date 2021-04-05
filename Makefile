@@ -6,13 +6,19 @@
 #    By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/22 11:22:17 by jrignell          #+#    #+#              #
-#    Updated: 2021/04/02 16:40:07 by jrignell         ###   ########.fr        #
+#    Updated: 2021/04/05 13:15:44 by jrignell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fdf
 
 CFLAGS = -Wall -Wextra -Werror
+
+CYAN=\033[1;36m
+GREEN=\033[0;32m
+YELLOW=\033[0;33m
+WHITE=\033[1;37m
+NC=\033[0m
 
 CC = /usr/bin/gcc
 MAKE = /usr/bin/make
@@ -56,27 +62,37 @@ obj:
 	@$(MKDIR) -p $(OBJ_DIR)
 
 $(OBJ_DIR)%.o:$(SRC_DIR)%.c
+	@printf -- "${GREEN}creating object\t${WHITE}[ $@ ]${NC}\n"
 	@$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $<
 
 $(LIBFT):
+	@printf "${CYAN}compiling libft..${NC}\n"
 	@$(MAKE) -C $(LIBFT_DIR)
+	@printf "${GREEN}libft compiled!\n${NC}"
 
 $(MINLBX):
+	@printf "${CYAN}compiling minilibx..${NC}\n"
 	@$(MAKE) -C $(MINLBX_DIR) >/dev/null 2>&1
+	@printf "${GREEN}minilibx compiled!\n${NC}"
 
 $(NAME): $(OBJ)
+	@printf "${CYAN}creating binary file ${WHITE}[${YELLOW} $@ ${WHITE}]${NC}\n"
 	@$(CC) $(OBJ) $(LINKS) -lm -o $(NAME)
+	@printf "${GREEN}done!\n${NC}"
+	@printf "\n${WHITE}usage: ./fdf <input_file_to_read_from>\n${NC}"
 
 clean:
+	@printf "${CYAN}removing objects..${NC}"
 	@$(RM) -Rf $(OBJ_DIR)
 	@$(MAKE) -C $(LIBFT_DIR) clean
 	@$(MAKE) -C $(MINLBX_DIR) clean
-	@echo "Objects removed!"
+	@printf " ${GREEN}done!\n${NC}"
 
 fclean: clean
+	@printf "${CYAN}removing executable..${NC}"
 	@$(RM) -f $(NAME)
 	@$(MAKE) -C $(LIBFT_DIR) fclean
-	@echo "$(NAME) removed!"
+	@printf " ${GREEN}done!\n${NC}"
 
 re: fclean all
 

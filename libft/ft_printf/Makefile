@@ -6,7 +6,7 @@
 #    By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/12/05 15:53:22 by jrignell          #+#    #+#              #
-#    Updated: 2021/03/22 18:58:51 by jrignell         ###   ########.fr        #
+#    Updated: 2021/04/03 21:13:15 by jrignell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,9 @@ SRCS = 	ft_printf.c \
 		ft_helpers.c \
 		ft_helpers_check_functions.c \
 		ft_parse_brk.c \
-		print_array.c
+		form_struct.c \
+		print_array.c \
+		ft_str_free.c \
 
 OBJ = $(addprefix $(OBJ_DIR), $(SRCS:.c=.o))
 

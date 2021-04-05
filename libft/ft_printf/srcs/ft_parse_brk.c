@@ -6,13 +6,13 @@
 /*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/02 19:11:25 by jrignell          #+#    #+#             */
-/*   Updated: 2020/05/12 14:18:19 by jrignell         ###   ########.fr       */
+/*   Updated: 2021/04/03 20:05:47 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		printf_bonus(t_format *f, unsigned long long print)
+int	printf_bonus(t_format *f, unsigned long long print)
 {
 	int		len;
 

@@ -6,7 +6,7 @@
 /*   By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/03 17:05:25 by jrignell          #+#    #+#             */
-/*   Updated: 2020/05/12 14:21:59 by jrignell         ###   ########.fr       */
+/*   Updated: 2021/04/03 20:18:06 by jrignell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,21 @@ static void	print_spaces(int *len, char **array, t_format *f)
 	}
 }
 
-int			print_array(t_format *f, char **array)
+int	print_array(t_format *f, char **array)
 {
 	int		len;
 
-	f->null = array == 0 ? 1 : 0;
+	if (array == 0)
+		f->null = 1;
+	else
+		f->null = 0;
 	len = 0;
 	if (!f->null)
 	{
-		f->width ? print_spaces(&len, array, f) :
-		print_new_lines(&len, array, f);
+		if (f->width)
+			print_spaces(&len, array, f);
+		else
+			print_new_lines(&len, array, f);
 	}
 	else
 	{
