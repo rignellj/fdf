@@ -6,16 +6,27 @@
 #    By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/12/05 15:53:22 by jrignell          #+#    #+#              #
-#    Updated: 2021/04/03 21:13:15 by jrignell         ###   ########.fr        #
+#    Updated: 2021/04/05 20:07:05 by jrignell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libftprintf.a
+
 CFLAGS = -Wall -Wextra -Werror
-CC = gcc
+
+CC = /usr/bin/gcc
+MKDIR = /bin/mkdir
+RM = /bin/rm
+AR = /usr/bin/ar
+
 INC_DIR = includes/
+
 OBJ_DIR =	obj/
 SRC_DIR =	srcs/
+
+GREEN=\033[0;32m
+WHITE=\033[1;37m
+NC=\033[0m
 
 SRCS = 	ft_printf.c \
 		ft_dprintf.c \
@@ -40,19 +51,21 @@ OBJ = $(addprefix $(OBJ_DIR), $(SRCS:.c=.o))
 all: obj $(NAME)
 
 obj:
-	@mkdir -p $(OBJ_DIR)
+	@$(MKDIR) -p $(OBJ_DIR)
+
 $(OBJ_DIR)%.o:$(SRC_DIR)%.c
+	@printf -- "${GREEN}creating object\t${WHITE}[ $@ ]${NC}\n"
 	@$(CC) $(CFLAGS) -c $< -o $@ -I $(INC_DIR)
 
 $(NAME): $(OBJ_DIR) $(OBJ)
-	@ar rc $(NAME) $(OBJ)
+	@$(AR) rc $(NAME) $(OBJ)
 	@ranlib $(NAME)
 
 clean:
-	@/bin/rm -f $(OBJ)
+	@$(RM) -f $(OBJ)
 
 fclean: clean
-	@/bin/rm -f $(NAME)
+	@$(RM) -f $(NAME)
 
 re: fclean all
 	

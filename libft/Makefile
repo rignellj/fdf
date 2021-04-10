@@ -6,15 +6,27 @@
 #    By: jrignell <jrignell@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/16 08:37:30 by ttampio           #+#    #+#              #
-#    Updated: 2021/04/03 15:33:25 by jrignell         ###   ########.fr        #
+#    Updated: 2021/04/05 20:05:06 by jrignell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
 FT_PRINTF = ft_printf/libftprintf.a
+
+GREEN=\033[0;32m
+WHITE=\033[1;37m
+NC=\033[0m
+
 ODIR = obj
+
 CFLAGS = -Wall -Wextra -Werror
-CC = gcc
+
+CC = /usr/bin/gcc
+MKDIR = /bin/mkdir
+MAKE = /usr/bin/make
+RM = /bin/rm
+AR = /usr/bin/ar
+
 SRC =  \
 		ft_abs.c \
 		ft_arraydel.c \
@@ -81,40 +93,38 @@ OBJ =	$(patsubst %.c, $(ODIR)/src/%.o, $(SRC)) \
 		$(patsubst %.c, $(ODIR)/doubly_linked_list/%.o, $(DLLFILES))
 
 $(ODIR)/%.o: %.c | $(ODIR)
+	@printf -- "${GREEN}creating object\t${WHITE}[ $@ ]${NC}\n"
 	@$(CC) -c -o $@ $< -I ft_printf/includes -I includes/ $(CFLAGS)
 
 all: $(FT_PRINTF) $(NAME)
-
-norm:
-	@norminette ft_*.c libft.h
 
 index:
 	@ranlib $(NAME)
 
 $(ODIR):
-	@/bin/mkdir $(ODIR)
-	@/bin/mkdir $(ODIR)/src
-	@/bin/mkdir $(ODIR)/compare
-	@/bin/mkdir $(ODIR)/stack
-	@/bin/mkdir $(ODIR)/queue
-	@/bin/mkdir $(ODIR)/btree
-	@/bin/mkdir $(ODIR)/trie
-	@/bin/mkdir $(ODIR)/doubly_linked_list
+	@$(MKDIR) $(ODIR)
+	@$(MKDIR) $(ODIR)/src
+	@$(MKDIR) $(ODIR)/compare
+	@$(MKDIR) $(ODIR)/stack
+	@$(MKDIR) $(ODIR)/queue
+	@$(MKDIR) $(ODIR)/btree
+	@$(MKDIR) $(ODIR)/trie
+	@$(MKDIR) $(ODIR)/doubly_linked_list
 
 $(NAME): $(OBJ)
-	@ar rc $@ $^
-	@ar rc $@ ft_printf/obj/*.o
+	@$(AR) rc $@ $^
+	@$(AR) rc $@ ft_printf/obj/*.o
 
 $(FT_PRINTF):
-	@make -C ft_printf/ fclean && make -C ft_printf/
+	@$(MAKE) -C ft_printf/ fclean && $(MAKE) -C ft_printf/
 
 clean:
-	@make -C ft_printf/ clean
-	@/bin/rm -rf $(ODIR)
+	@$(MAKE) -C ft_printf/ clean
+	@$(RM) -rf $(ODIR)
 
 fclean: clean
-	@make -C ft_printf/ fclean
-	@/bin/rm -rf $(NAME)
+	@$(MAKE) -C ft_printf/ fclean
+	@$(RM) -rf $(NAME)
 
 re : fclean all
 
